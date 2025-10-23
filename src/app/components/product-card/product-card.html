@@ -1,0 +1,17 @@
+<div class="product-card">
+  <img class="card-image" [src]="product().photo" [alt]="product().name" />
+
+  <div class="card-content">
+    <h3 class="card-title">{{ product().name }}</h3>
+    <div>
+      <span class="card-price">${{ product().price }}</span>
+      <span class="card-stock">Stock:{{ product().stock }}</span>
+    </div>
+  </div>
+
+  <div class="card-buttons">
+    <button class="btn btn-update" (click)="onUpdate()">Update</button>
+
+    <button class="btn btn-delete" (click)="onDelete()">Delete</button>
+  </div>
+</div>
