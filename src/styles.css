@@ -1,1 +1,38 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+    --font-display: "Merriweather", serif;
+    --font-body: "Source Sans 3", sans-serif;
+
+    --color-green: #0ac68d;
+    --color-pink: #a64e59;
+    --color-dark-green: rgb(7, 61, 49);
+    --color-light-pink: rgb(196, 108, 119);
+
+}
+
+html {
+    box-sizing: border-box;
+    font-size: 100%;
+}
+
+*,
+*::after,
+*::before {
+    box-sizing: inherit;
+}
+
+body {
+    font-size: 100%;
+    font-family: var(--font-body);
+    line-height: 1.5;
+    background-color: #0ac68d;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 90vw;
+    margin: 0 auto;
+}
