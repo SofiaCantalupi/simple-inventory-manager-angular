@@ -1,0 +1,50 @@
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+    <div>
+        <label for="name">Name:</label>
+        <input
+        formControlName="name"
+        type="text" 
+        name="name" 
+        id="name"
+        placeholder="Enter name..."
+        required>
+    </div>
+
+    <div>
+        <label for="price">Price:</label>
+        <input 
+        formControlName="price"
+        type="number"
+        name="price"
+        id="price"
+        min="0"
+        placeholder="Enter price..."
+        required
+        >
+    </div>
+
+    <div>
+        <label for="stock">Stock:</label>
+        <input 
+        formControlName="stock"
+        type="number"
+        name="stock"
+        id="stock"
+        min="0"
+        placeholder="Enter stock..."
+        required>
+    </div>
+
+    <div>
+        <label for="photo">URL photo:</label>
+        <input
+        formControlName="photo"
+        type="url" 
+        name="photo" 
+        id="photo"
+        placeholder="Enter URL photo..."
+        required>
+    </div>
+
+    <button type="submit" [disabled]="!productForm.valid">Add product</button>
+</form>
