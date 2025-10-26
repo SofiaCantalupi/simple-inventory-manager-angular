@@ -43,9 +43,7 @@ export class ProductForm {
       return;
     }
 
-    // verificar si se esta editando o creando un producto
-
-    // se obtienen los datos del form
+        // se obtienen los datos del form
     const formData = {
       name: this.productForm.value.name!,
       price: this.productForm.value.price!,
@@ -53,8 +51,23 @@ export class ProductForm {
       photo: this.productForm.value.photo!,
     };
 
-    // se guarda el producto nuevo
-    this.productService.addProduct(formData);
+
+    // verificar si se esta editando o creando un producto
+
+    if (this.selectedProduct()) {
+      // modo edicion
+      const updatedProduct = {
+        id: this.selectedProduct()!.id,
+        ...formData
+      };
+
+      this.productService.updateProduct(updatedProduct);
+      this.productService.clearSelection();
+      alert('Product updated successfully.');
+    } else {
+      // modo creacion
+      this.productService.addProduct(formData);
+    }
 
     // limpiar formulario
     this.productForm.reset({
@@ -63,6 +76,11 @@ export class ProductForm {
       stock: 0,
       photo: '',
     });
+  }
+
+  // si selectProduct NO es undefined, es decir, hay un produdcto seleccionado, retorna true
+  get isEditMode(): boolean{
+    return this.selectedProduct() !== undefined;
   }
 
   get name() {
@@ -81,3 +99,15 @@ export class ProductForm {
     return this.productForm.get('photo')!;
   }
 }
+
+
+/* // Cancelar edición
+  onCancel() {
+    this.productService.clearSelection();
+    this.productForm.reset({
+      name: '',
+      price: 0,
+      stock: 0,
+      photo: ''
+    });
+  } */
