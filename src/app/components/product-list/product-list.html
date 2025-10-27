@@ -2,14 +2,23 @@
   <h2>List of Products</h2>
 
   @if (products().length === 0){
-    <div class="empty-inventory">
-        <p>There aren't any products yet</p>
-    </div>
+  <div class="empty-inventory">
+    <p>There aren't any products yet</p>
+  </div>
   } @else {
-    <div class="product-inventory">
+  <div class="product-inventory">
+    @for (product of products(); track product.id) {
+    <h3>{{ product.name }}</h3>
+    <p>Price: ${{ product.price }}</p>
+    <p>Stock: {{ product.stock }}</p>
+    <a [routerLink]="['/product', product.id]" class="btn btn-detail">View Details</a>
+    }
+  </div>
+  }
+</div>
+
+<!-- <div class="product-inventory">
         @for (product of products(); track product.id) {
             <app-product-card [product] ="product"/>
         }
-    </div>
-  }
-</div>
+    </div> -->
