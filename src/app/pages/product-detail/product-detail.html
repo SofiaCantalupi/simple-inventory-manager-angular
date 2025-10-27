@@ -1,0 +1,21 @@
+<app-product-form>
+</app-product-form>
+
+<div class="product-detail-container">
+  <button (click)="goBack()" class="btn-back">
+    ← Back to Inventory
+  </button>
+
+  @if (product()) {
+    <app-product-card [product]="product()!" />
+  } @else {
+    <div class="not-found">
+      <h2>Product not found</h2>
+      <p>The product you're looking for doesn't exist</p>
+      <button (click)="goBack()" class="btn-back">
+        ← Back to Inventory
+      </button>
+    </div>
+  }
+
+</div>
