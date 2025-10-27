@@ -1,11 +1,16 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Product } from '../interfaces/product';
 import { signal } from '@angular/core';
+import { CategoryService } from './category-service';
+import { SupplierService } from './supplier-service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
+  private categoryService = inject(CategoryService);
+  private supplierService = inject(SupplierService);
+
   private products = signal<Product[]>([]); // tiene que tener un array vacio o con algunos valores, tiene que tener un valor asignado si o si
 
   selectedProduct = signal<Product | undefined>(undefined);
@@ -30,6 +35,10 @@ export class ProductService {
     return this.products.asReadonly();
   }
 
+  getProductById(id: number): Product|undefined{
+    return this.products().find(p => p.id === id);
+  }
+
   addProduct(productData: Omit<Product, 'id'>) {
     const newProduct: Product = {
       id: this.nextId(),
@@ -48,5 +57,15 @@ export class ProductService {
     this.products.update((list) =>
       list.map((product) => (product.id === updatedProduct.id ? updatedProduct : product))
     );
+  }
+
+    // Obtener productos filtrados por categoría
+  getProductsByCategory(categoryId: number) {
+    return this.products().filter(p => p.categoryId === categoryId);
+  }
+
+  // Obtener productos filtrados por proveedor
+  getProductsBySupplier(supplierId: number) {
+    return this.products().filter(p => p.supplierId === supplierId);
   }
 }
