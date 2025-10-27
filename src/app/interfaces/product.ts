@@ -4,4 +4,6 @@ export interface Product {
     price: number;
     stock: number;
     photo: string;
+    categoryId: number;
+    supplierId: number
 }
