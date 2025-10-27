@@ -57,6 +57,26 @@
     />
   </div>
 
+  <div>
+    <label for="categoryId">Category:</label>
+    <select formControlName="categoryId" id="category">
+      <option value="0">Select a category</option>
+      @for(category of categories(); track category.id){
+        <option [value]="category.id">{{ category.name }}</option>
+      }
+    </select>
+  </div>
+
+  <div>
+  <label for="supplier">Supplier:</label>
+  <select id="supplier" formControlName="supplierId">
+    <option value="0">Select a supplier</option>
+    @for (supplier of suppliers(); track supplier.id) {
+      <option [value]="supplier.id">{{ supplier.name }}</option>
+    }
+  </select>
+  </div>
+
   <button 
   type="submit" 
   [disabled]="!productForm.valid"

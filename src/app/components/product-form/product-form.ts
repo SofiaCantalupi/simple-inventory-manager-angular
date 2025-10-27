@@ -1,6 +1,8 @@
 import { Component, inject, effect } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProductService } from '../../service/product-service';
+import { CategoryService } from '../../service/category-service';
+import { SupplierService } from '../../service/supplier-service';
 
 @Component({
   selector: 'app-product-form',
@@ -10,6 +12,11 @@ import { ProductService } from '../../service/product-service';
 })
 export class ProductForm {
   private productService = inject(ProductService);
+  private categoryService = inject(CategoryService);
+  private supplierService = inject(SupplierService);
+
+  categories = this.categoryService.getCategories();
+  suppliers = this.supplierService.getSuppliers();
 
   selectedProduct = this.productService.getSelectedProduct();
 
@@ -18,6 +25,8 @@ export class ProductForm {
     price: new FormControl(0, [Validators.required, Validators.min(0)]),
     stock: new FormControl(0, [Validators.required, Validators.min(0)]),
     photo: new FormControl('', [Validators.required, Validators.pattern(/^https?:\/\/.+/)]),
+    categoryId: new FormControl(0, [Validators.required, Validators.min(1)]),
+    supplierId: new FormControl(0, [Validators.required, Validators.min(1)]),
   });
 
   constructor() {
@@ -29,7 +38,9 @@ export class ProductForm {
           name: product.name,
           price: product.price,
           stock: product.stock,
-          photo: product.photo
+          photo: product.photo,
+          categoryId: product.categoryId,
+          supplierId: product.supplierId,
         });
       }
     });
@@ -43,14 +54,18 @@ export class ProductForm {
       return;
     }
 
-        // se obtienen los datos del form
+    // se obtienen los datos del form
     const formData = {
       name: this.productForm.value.name!,
       price: this.productForm.value.price!,
       stock: this.productForm.value.stock!,
       photo: this.productForm.value.photo!,
+      categoryId: this.productForm.value.categoryId!,
+      supplierId: this.productForm.value.supplierId!,
     };
 
+    // OTRA OPCION: Extraer todos los campos automáticamente CON 
+    // const productData = this.productForm.getRawValue();
 
     // verificar si se esta editando o creando un producto
 
@@ -58,7 +73,7 @@ export class ProductForm {
       // modo edicion
       const updatedProduct = {
         id: this.selectedProduct()!.id,
-        ...formData
+        ...formData,
       };
 
       this.productService.updateProduct(updatedProduct);
@@ -75,11 +90,13 @@ export class ProductForm {
       price: 0,
       stock: 0,
       photo: '',
+      categoryId: 0,
+      supplierId: 0,
     });
   }
 
   // si selectProduct NO es undefined, es decir, hay un produdcto seleccionado, retorna true
-  get isEditMode(): boolean{
+  get isEditMode(): boolean {
     return this.selectedProduct() !== undefined;
   }
 
@@ -98,8 +115,15 @@ export class ProductForm {
   get photo() {
     return this.productForm.get('photo')!;
   }
-}
 
+  get categoryId() {
+    return this.productForm.get('categoryId')!;
+  }
+
+  get supplierId() {
+    return this.productForm.get('supplierId')!;
+  }
+}
 
 /* // Cancelar edición
   onCancel() {
@@ -108,6 +132,8 @@ export class ProductForm {
       name: '',
       price: 0,
       stock: 0,
-      photo: ''
+      photo: '',
+      categoryId: 0,      
+      supplierId: 0
     });
   } */
